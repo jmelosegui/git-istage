@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ nigthlybuild ]
     tags:
       - 'v*.*.*'
   pull_request:
@@ -33,8 +33,5 @@ jobs:
     - name: Test
       run: dotnet test --no-build --nologo --verbosity normal $SLN /p:OutDir=$BIN
     - name: Push package to GPR
-      if: ${{ github.event_name == 'push' && env.RELEASE_VERSION == 'main' }}
-      run: dotnet nuget push $BIN*.nupkg --source https://nuget.pkg.github.com/terrajobst/index.json --api-key ${{ github.token }} --skip-duplicate
-    - name: Push package to nuget.org
-      if: ${{ github.event_name == 'push' && startsWith(env.RELEASE_VERSION, 'v') }}
-      run: dotnet nuget push $BIN*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_ORG_TOKEN }} --skip-duplicate
+      if: ${{ github.event_name == 'push' && env.RELEASE_VERSION == 'nigthlybuild' }}
+      run: dotnet nuget push $BIN*.nupkg --source https://nuget.pkg.github.com/jmelosegui/index.json --api-key ${{ github.token }} --skip-duplicate
